@@ -7,21 +7,6 @@ const app = express()
 
 app.use(bodyParser.json())
 
-let books = [
-  {
-    id: 1,
-    title: 'Livre 1',
-    authorId: 1,
-    categoryId: 1
-  },
-  {
-    id: 2,
-    title: 'Livre 2',
-    authorId: 2,
-    categoryId: 2
-  }
-]
-
 app.get('/books', async (req, res) => {
   connection.query('SELECT * FROM books', (err, results) => {
     res.json(results)
