@@ -1,0 +1,16 @@
+services:
+  authors:
+    build: ./authors-service
+    ports:
+      - 4000:4000
+    command: npm run start
+  books:
+    build: ./books-service
+    ports:
+      - 3000:3000
+    command: npm run start
+  categories:
+    build: ./categories-service
+    ports:
+      - 5000:5000
+    command: npm run start
