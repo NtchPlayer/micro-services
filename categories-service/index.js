@@ -1,36 +1,57 @@
 import express from  'express'
 import bodyParser from 'body-parser'
-import axios from 'axios'
+import { connection } from './bdd.js'
 
 const app = express()
 
 app.use(bodyParser.json())
 
-let categories = [
-  {
-    id: 1,
-    name: 'Poème'
-  },
-  {
-    id: 2,
-    name: 'Bande dessiné'
-  }
-]
-
-
 app.get('/categories', async (req, res) => {
-  res.json(categories)
+  connection.query('SELECT * FROM categories', (err, results) => {
+    res.json(results)
+  })
 })
 
 app.get('/categories/:id', async (req, res) => {
   const id = parseInt(req.params.id)
-  const category = categories.find(category => category.id === id)
 
-  if (category) {
-    res.json(category)
-  } else {
-    res.status(404).json({ error: 'Catégorie non trouvé' })
-  }
+  connection.query(`SELECT * FROM categories WHERE id = ${id}`, async (err, results) => {
+    const category = results[0]
+    if (category) {
+      res.json(category)
+    } else {
+      res.status(404).json({ error: 'Catégorie non trouvée' })
+    }
+  })
+})
+
+app.post('/categories/add', async (req, res) => {
+  connection.query('INSERT INTO categories (name) VALUES(?)', [req.body.name], (error) => {
+    if (error) {
+      return res.status(500).json({ error: 'Une erreur est survenue.' })
+    }
+    res.status(201).json({ error: 'Catégorie ajoutée.' })
+  })
+})
+
+app.put('/categories/:id', async (req, res) => {
+  const id = parseInt(req.params.id)
+  connection.query(`UPDATE categories SET name = ? WHERE id = ${id}`, [req.body.name], (error) => {
+    if (error) {
+      return res.status(500).json({ error: 'Une erreur est survenue.' })
+    }
+    res.status(200).json({ error: 'Catégorie à mise à jour.' })
+  })
+})
+
+app.delete('/categories/:id', async (req, res) => {
+  const id = parseInt(req.params.id)
+  connection.query(`DELETE FROM categories WHERE id = ${id}`, (error) => {
+    if (error) {
+      return res.status(500).json({ error: 'Une erreur est survenue.' })
+    }
+    res.status(200).json({ error: 'Catégorie supprimée.' })
+  })
 })
 
 app.listen(5000, () => {

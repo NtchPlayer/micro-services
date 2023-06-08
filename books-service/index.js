@@ -73,6 +73,16 @@ app.put('/books/:id', async (req, res) => {
   })
 })
 
+app.delete('/books/:id', async (req, res) => {
+  const id = parseInt(req.params.id)
+  connection.query(`DELETE FROM books WHERE id = ${id}`, (error) => {
+    if (error) {
+      return res.status(500).json({ error: 'Une erreur est survenue.' })
+    }
+    res.status(200).json({ error: 'Livre supprimer.' })
+  })
+})
+
 app.listen(3000, () => {
   console.log('Microservice de gestion des livres démarré sur le port 3000')
 })
