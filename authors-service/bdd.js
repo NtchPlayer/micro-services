@@ -3,8 +3,8 @@ import mysql from 'mysql2'
 // create the connection to database
 export const connection = mysql.createConnection({
   host: 'localhost',
-  port: '8889',
+  port: '3306',
   user: 'root',
-  password: 'root',
+  password: '',
   database: 'authors-service'
 })
