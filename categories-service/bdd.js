@@ -2,9 +2,9 @@ import mysql from 'mysql2'
 
 // create the connection to database
 export const connection = mysql.createConnection({
-  host: 'localhost',
-  port: '3306',
+  host: 'db_categories',
+  // port: '3306',
   user: 'root',
-  password: '',
+  password: 'root',
   database: 'categories-service'
 })

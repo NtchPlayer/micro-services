@@ -1,16 +1,70 @@
+networks:
+  my_network:
+
 services:
+  db_categories:
+    image: mysql:8.0
+    container_name: db_categories
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: categories-service
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./categories-service/categories-service.sql:/docker-entrypoint-initdb.d/categories-service.sql
+    ports:
+      - 3302:3306
+    networks:
+      - my_network
+  db_authors:
+    image: mysql:8.0
+    container_name: db_authors
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: authors-service
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./authors-service/authors-service.sql:/docker-entrypoint-initdb.d/authors-service.sql
+    ports:
+      - 3301:3306
+    networks:
+      - my_network
+  db_books:
+    image: mysql:8.0
+    container_name: db_books
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: books-service
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./books-service/books-service.sql:/docker-entrypoint-initdb.d/books-service.sql
+    ports:
+      - 3300:3306
+    networks:
+      - my_network
   authors:
+    container_name: authors
     build: ./authors-service
     ports:
       - 4000:4000
     command: npm run start
+    networks:
+      - my_network
   books:
+    container_name: books
     build: ./books-service
     ports:
       - 3000:3000
     command: npm run start
+    networks:
+      - my_network
   categories:
+    container_name: categories
     build: ./categories-service
     ports:
       - 5000:5000
     command: npm run start
+    networks:
+      - my_network

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:8889
--- Généré le : jeu. 08 juin 2023 à 09:14
--- Version du serveur :  5.7.34
--- Version de PHP : 8.0.8
+-- Hôte : 127.0.0.1
+-- Généré le : lun. 03 juil. 2023 à 16:49
+-- Version du serveur : 10.4.28-MariaDB
+-- Version de PHP : 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `books-service`
+-- Base de données : `micros-services`
 --
 
 -- --------------------------------------------------------
@@ -29,10 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `books` (
   `id` int(11) NOT NULL,
-  `title` varchar(250) NOT NULL,
-  `authorId` int(11) NOT NULL,
-  `categoryId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `title` varchar(255) NOT NULL,
+  `authorId` int(11) DEFAULT NULL,
+  `categoryId` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `books`
